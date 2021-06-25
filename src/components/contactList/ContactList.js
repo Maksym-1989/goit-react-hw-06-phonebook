@@ -1,13 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
 import css from "./ContactList.module.css";
+import { connect } from "react-redux";
+import { deleteContact } from "../../redux/phonebook/phonebook-actions";
 
-const ContactList = ({ contacts, deleteContact }) => {
+const ContactList = ({ items, filter, deleteContact }) => {
+  const getFilteredContacts = () => {
+    const filtertoLowerCase = filter.toLowerCase();
+
+    return items.filter((contact) =>
+      contact.name.toLowerCase().includes(filtertoLowerCase)
+    );
+  };
+
+  const filteredContacts = getFilteredContacts();
+
   return (
     <ul>
-      {contacts.map(({ name, number, id }) => (
+      {filteredContacts.map(({ name, number, id }) => (
         <li key={id} className={css.item}>
-          <p className={css.text}>{name}: {number}</p>
+          <p className={css.text}>
+            {name}: {number}
+          </p>
           <button
             className={css.button}
             type="button"
@@ -24,7 +38,7 @@ const ContactList = ({ contacts, deleteContact }) => {
 };
 
 ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
+  items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
@@ -32,6 +46,14 @@ ContactList.propTypes = {
     })
   ),
   deleteContact: PropTypes.func.isRequired,
+  filter: PropTypes.string.isRequired,
 };
 
-export default ContactList;
+const mapStateToProps = (state) => ({
+  items: state.contacts.items,
+  filter: state.contacts.filter,
+});
+
+const mapDispatchToProps = { deleteContact };
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
