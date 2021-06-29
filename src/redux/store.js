@@ -34,10 +34,3 @@ const persistor = persistStore(store);
 
 export default { store, persistor };
 
-// const rootReducer = combineReducers({ contacts: contactsReducer });
-
-// const store = configureStore({
-//   reducer: rootReducer,
-// });
-
-// export default store;

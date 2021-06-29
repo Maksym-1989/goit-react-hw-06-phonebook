@@ -29,7 +29,6 @@ Filter.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  contacts: state.contacts.items,
   filter: state.contacts.filter,
 });
 

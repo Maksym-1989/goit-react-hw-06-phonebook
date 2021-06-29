@@ -1,17 +1,17 @@
 import { combineReducers } from "redux";
-import { ADD_CONTACT, DELETE_CONTACT, ON_CHANGE_FILTER } from "./counter-types";
 import contactsArrray from "../../data/Contacts.json";
 import { createReducer } from "@reduxjs/toolkit";
+import { addContact, deleteContact, onChangeFilter } from "./phonebook-actions";
 
 
 const itemsReducer = createReducer(contactsArrray, {
-  [ADD_CONTACT]: (state, { payload }) => [payload, ...state],
-  [DELETE_CONTACT]: (state, { payload }) =>
+  [addContact]: (state, { payload }) => [payload, ...state],
+  [deleteContact]: (state, { payload }) =>
     state.filter((contact) => contact.id !== payload),
 });
 
 const filterReducer = createReducer("", {
-  [ON_CHANGE_FILTER]: (_, { payload }) => payload,
+  [onChangeFilter]: (_, { payload }) => payload,
 });
 
 const contactsReducer = combineReducers({
